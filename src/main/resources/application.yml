@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: financial-reports-service
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/financial_reports
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+  
+  # Internationalization
+  messages:
+    basename: messages/messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
+    cache-duration: 3600
+  
+  # Security
+  security:
+    jwt:
+      secret: ${JWT_SECRET:buildsystemfinancialcontrolsystemsecretkey}
+      token-validity-in-seconds: 86400
+      token-validity-in-seconds-for-remember-me: 2592000
+
+# Server Configuration
+server:
+  port: 8082
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    ca.buildsystem: DEBUG
+    org.springframework.web: INFO
+    org.hibernate: INFO
+
+# Application-specific Configuration
+app:
+  report:
+    storage-path: ${REPORT_STORAGE_PATH:/tmp/reports}
+    default-currency: CAD
+    default-format: PDF
+  
+  # CORS Configuration
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+    max-age: 1800
